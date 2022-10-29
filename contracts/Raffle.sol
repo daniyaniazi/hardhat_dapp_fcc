@@ -11,6 +11,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
 error Raffle__NotEnoughETHEntered();
 error Raffle_TransferedFailed();
 error Raffle__NotOpened();
+error Raffle__UpKeepNotNeeded(uint256 currentBalance, uint256 numOfPlayers, uint256 raffleState);
 
 contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     // Types
@@ -69,8 +70,18 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         emit RaffleEnter(msg.sender);
     }
 
-    // Pick a random winner (verifiably random)
-    function requestRandomWinenr() external {
+    // Pick a random winner (verifiably random) - Keeper Function
+    function performUpkeep(
+        bytes calldata /*perform datab*/
+    ) external {
+        (bool upKeepNedded, ) = checkUpkeep("");
+        if (!upKeepNedded) {
+            revert Raffle__UpKeepNotNeeded(
+                address(this).balance,
+                s_players.length,
+                uint256(s_state)
+            );
+        }
         //  Request The random Number
         s_state = RaffleState.CALCULATING;
         uint256 requestId = i_COORDINATOR.requestRandomWords(
@@ -96,6 +107,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         s_state = RaffleState.OPEN;
         //   reset players
         s_players = new address payable[](0);
+        s_lastTimeStamp = block.timestamp;
         (bool success, ) = recentWinner.call{value: address(this).balance}("");
         emit WinnerPicked(recentWinner);
         if (!success) {
@@ -117,9 +129,10 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
      * 4. lottery should be in open state
      */
     function checkUpkeep(
-        bytes calldata /* checkData */
+        bytes memory /* checkData */
     )
-        external
+        public
+        view
         override
         returns (
             bool upKeepNeeded,
