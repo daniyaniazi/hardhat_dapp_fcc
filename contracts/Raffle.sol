@@ -13,6 +13,13 @@ error Raffle_TransferedFailed();
 error Raffle__NotOpened();
 error Raffle__UpKeepNotNeeded(uint256 currentBalance, uint256 numOfPlayers, uint256 raffleState);
 
+/**
+ * @title A sample Raffle Contract
+ * @author Daniya
+ * @notice Learning Smartcontract developement
+ * @dev Implements chainlink VRF v2 and Chainlink Keepers
+ */
+
 contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     // Types
     enum RaffleState {
@@ -150,11 +157,31 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         return i_entranceFee;
     }
 
+    function getNumOfPlayers() public view returns (uint256) {
+        return s_players.length;
+    }
+
+    function getLatestTimestamp() public view returns (uint256) {
+        return s_lastTimeStamp;
+    }
+
+    function getNumWords() public pure returns (uint256) {
+        return NUM_WORDS;
+    }
+
+    function getRequestConfirmations() public pure returns (uint256) {
+        return REQUEST_CONFIRMATION;
+    }
+
     function getPlayer(uint256 index) public view returns (address) {
         return s_players[index];
     }
 
     function getRecentWinner() public view returns (address) {
         return s_recentWinner;
+    }
+
+    function getRaffleState() public view returns (RaffleState) {
+        return s_state;
     }
 }
