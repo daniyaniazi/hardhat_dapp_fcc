@@ -31,6 +31,10 @@ module.exports = {
             // accounts: Hardhat Magic,
             chainId: 31337,
         },
+        hardhat: {
+            chainId: 31337,
+            blockConfirmations: 6,
+        },
     },
     etherscan: {
         apiKey: process.env.ETHERSCAN_API_KEY,
@@ -48,7 +52,7 @@ module.exports = {
             // network
             //4:1
         },
-        user: {
+        player: {
             default: 1,
         },
     },
