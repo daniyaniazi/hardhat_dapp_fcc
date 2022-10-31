@@ -1,4 +1,3 @@
-const { _base16To36 } = require("@ethersproject/bignumber")
 const { network, ethers } = require("hardhat")
 const { developmentChains } = require("../helper-hardhat-config")
 
@@ -12,15 +11,15 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
     if (developmentChains.includes(network.name)) {
         // local network
-        console.log("Local network detected! Deploying mocks..")
+        log("Local network detected! Deploying mocks..")
         await deploy("VRFCoordinatorV2Mock", {
             from: deployer,
             log: true,
             args: args,
         })
-        console.log("MOCK DEPLOYED!")
-        console.log("------------------------------------")
+        log("MOCK DEPLOYED!")
+        log("------------------------------------")
     }
 }
 
-modules.exports.tags = ["all", "mocks"]
+module.exports.tags = ["all", "mocks"]
