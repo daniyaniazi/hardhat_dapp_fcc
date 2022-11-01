@@ -81,8 +81,8 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     function performUpkeep(
         bytes calldata /*perform datab*/
     ) external {
-        (bool upKeepNedded, ) = checkUpkeep("");
-        if (!upKeepNedded) {
+        (bool upKeepNedeed, ) = checkUpkeep("");
+        if (!upKeepNedeed) {
             revert Raffle__UpKeepNotNeeded(
                 address(this).balance,
                 s_players.length,
@@ -142,7 +142,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         view
         override
         returns (
-            bool upKeepNeeded,
+            bool upKeepNedeed,
             bytes memory /*perfom data */
         )
     {
@@ -150,7 +150,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         bool timePassed = (block.timestamp - s_lastTimeStamp) > i_interval;
         bool hasPlayers = s_players.length > 0;
         bool hasBalance = address(this).balance > 0;
-        upKeepNeeded = isOpen && timePassed && hasBalance && hasPlayers;
+        upKeepNedeed = isOpen && timePassed && hasBalance && hasPlayers;
     }
 
     function getEntranceFee() public view returns (uint256) {
