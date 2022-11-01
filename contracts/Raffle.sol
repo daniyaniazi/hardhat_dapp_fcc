@@ -61,7 +61,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     }
 
     event RaffleEnter(address indexed player);
-    event requestedRaffleWinner(uint256 indexed reqquestId);
+    event requestedRaffleWinner(uint256 indexed requestId);
     event WinnerPicked(address indexed winner);
 
     // Enter the lottery (paying some amount)
