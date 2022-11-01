@@ -153,7 +153,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         upKeepNeeded = isOpen && timePassed && hasBalance && hasPlayers;
     }
 
-    function getEntraceFee() public view returns (uint256) {
+    function getEntranceFee() public view returns (uint256) {
         return i_entranceFee;
     }
 

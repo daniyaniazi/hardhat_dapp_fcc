@@ -45,7 +45,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     })
 
     log(`raffle deployed at ${raffle.address}`)
-
+    if (chainId == 31337) {
+        await vrfCoordinatorV2Mock.addConsumer(subscriptionId.toNumber(), raffle.address)
+        log("Added Consumer")
+    }
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         await verify(raffle.address, args)
     }
