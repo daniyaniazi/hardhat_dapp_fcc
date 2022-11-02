@@ -1,0 +1,7 @@
+STEPS FOR TESTNET
+
+1. Get subid for chainlinkVRF
+2. Deploy contract with subid
+3. Register the contract woth chainlink VRF & its subid
+4. Register contract with chainlink keeper
+5. Run staging test
